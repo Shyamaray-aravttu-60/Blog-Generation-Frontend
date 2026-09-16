@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FastAPI AI Application</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="logo">AI FastAPI</div>
+
+    <nav>
+        <button onclick="showSection('home')">Home</button>
+        <button onclick="showSection('chat')">AI Chat</button>
+        <button onclick="showSection('blog')">Blog Generator</button>
+        <button onclick="showSection('signup')">Signup</button>
+        <button onclick="showSection('users')">Users</button>
+    </nav>
+</header>
+
+
+<main>
+
+    <!-- HOME -->
+    <section id="home" class="section active">
+
+        <div class="hero">
+            <h1>FastAPI AI Application</h1>
+
+            <p>
+                Simple frontend connected to your FastAPI backend.
+            </p>
+
+            <button class="primary-btn" onclick="checkAPI()">
+                Check API
+            </button>
+
+            <div id="apiStatus" class="status"></div>
+        </div>
+
+    </section>
+
+
+    <!-- CHAT -->
+    <section id="chat" class="section">
+
+        <div class="card">
+
+            <h2>🤖 AI Chat</h2>
+
+            <p class="description">
+                Ask something to the AI.
+            </p>
+
+            <textarea
+                id="chatPrompt"
+                placeholder="Enter your prompt..."
+            ></textarea>
+
+            <button class="primary-btn" onclick="sendChat()">
+                Send
+            </button>
+
+            <div id="chatLoading" class="loading">
+                Thinking...
+            </div>
+
+            <div id="chatResult" class="result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BLOG -->
+    <section id="blog" class="section">
+
+        <div class="card">
+
+            <h2>📝 Blog Generator</h2>
+
+            <p class="description">
+                Enter a topic and generate a blog.
+            </p>
+
+            <input
+                type="text"
+                id="blogTopic"
+                placeholder="Example: Artificial Intelligence"
+            >
+
+            <button class="primary-btn" onclick="generateBlog()">
+                Generate Blog
+            </button>
+
+            <div id="blogLoading" class="loading">
+                Generating blog...
+            </div>
+
+            <div id="blogResult" class="blog-result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SIGNUP -->
+    <section id="signup" class="section">
+
+        <div class="card">
+
+            <h2>👤 User Signup</h2>
+
+            <p class="description">
+                Create a new user account.
+            </p>
+
+            <form id="signupForm">
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Name"
+                    maxlength="50"
+                    required
+                >
+
+                <input
+                    type="number"
+                    id="age"
+                    placeholder="Age"
+                    min="1"
+                    required
+                >
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Email"
+                    required
+                >
+
+                <select id="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    class="primary-btn"
+                >
+                    Create Account
+                </button>
+
+            </form>
+
+            <div id="signupResult" class="result"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- USERS -->
+    <section id="users" class="section">
+
+        <div class="card">
+
+            <div class="users-header">
+
+                <div>
+                    <h2>👥 All Users</h2>
+
+                    <p class="description">
+                        View registered users.
+                    </p>
+                </div>
+
+                <button
+                    class="primary-btn"
+                    onclick="getUsers()"
+                >
+                    Load Users
+                </button>
+
+            </div>
+
+            <div id="usersLoading" class="loading">
+                Loading users...
+            </div>
+
+            <div id="usersResult"></div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+    <p>FastAPI AI Application</p>
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
