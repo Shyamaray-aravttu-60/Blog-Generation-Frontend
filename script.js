@@ -2,98 +2,167 @@
 // FASTAPI BACKEND URL
 // ============================================
 
-const API_BASE_URL = "https://demo-sf6t.onrender.com";
+const API_BASE_URL =
+    "https://demo-sf6t.onrender.com";
 
 
 
 // ============================================
-// SECTION NAVIGATION
+// NAVIGATION
 // ============================================
 
 function showSection(sectionId) {
 
-    const sections = document.querySelectorAll(".section");
+    const sections =
+        document.querySelectorAll(".section");
+
 
     sections.forEach(section => {
+
         section.classList.remove("active");
+
     });
 
-    document.getElementById(sectionId).classList.add("active");
+
+    const selectedSection =
+        document.getElementById(sectionId);
+
+
+    selectedSection.classList.add("active");
+
 
     window.scrollTo({
+
         top: 0,
+
         behavior: "smooth"
+
     });
+
 }
 
 
+
 // ============================================
-// HELPER FUNCTION
+// SHOW RESULT
 // ============================================
 
-function showResult(elementId, message, success = true) {
+function showResult(
+    elementId,
+    message,
+    success = true
+) {
 
-    const element = document.getElementById(elementId);
+    const element =
+        document.getElementById(elementId);
+
 
     element.style.display = "block";
 
+
     element.textContent = message;
 
+
     if (success) {
-        element.style.color = "#166534";
-        element.style.background = "#dcfce7";
+
+        element.style.color =
+            "#166534";
+
+        element.style.background =
+            "#dcfce7";
+
     } else {
-        element.style.color = "#991b1b";
-        element.style.background = "#fee2e2";
+
+        element.style.color =
+            "#991b1b";
+
+        element.style.background =
+            "#fee2e2";
+
     }
+
 }
 
 
+
 // ============================================
-// HOME - CHECK API
+// HOME
 // GET /
 // ============================================
 
 async function checkAPI() {
 
-    const status = document.getElementById("apiStatus");
+    const status =
+        document.getElementById(
+            "apiStatus"
+        );
 
-    status.style.display = "block";
 
-    status.textContent = "Checking API...";
+    status.style.display =
+        "block";
+
+
+    status.textContent =
+        "Checking API...";
+
 
     try {
 
-        const response = await fetch(`${API_BASE_URL}/`);
+        const response =
+            await fetch(
+                `${API_BASE_URL}/`
+            );
 
-        const data = await response.json();
 
-        if (response.ok) {
+        const data =
+            await response.json();
 
-            status.textContent =
-                "✅ API is running: " +
-                (data.message || JSON.stringify(data));
 
-            status.style.background = "#dcfce7";
-            status.style.color = "#166534";
+        if (!response.ok) {
 
-        } else {
-
-            throw new Error("API returned an error");
+            throw new Error(
+                "API returned an error"
+            );
 
         }
+
+
+        status.textContent =
+            "✅ API is running: " +
+            (
+                data.message ||
+                JSON.stringify(data)
+            );
+
+
+        status.style.background =
+            "#dcfce7";
+
+
+        status.style.color =
+            "#166534";
+
 
     } catch (error) {
 
         status.textContent =
             "❌ Could not connect to the FastAPI server.";
 
-        status.style.background = "#fee2e2";
-        status.style.color = "#991b1b";
+
+        status.style.background =
+            "#fee2e2";
+
+
+        status.style.color =
+            "#991b1b";
+
 
         console.error(error);
+
     }
+
 }
+
 
 
 // ============================================
@@ -103,14 +172,27 @@ async function checkAPI() {
 
 async function sendChat() {
 
-    const prompt = document
-        .getElementById("chatPrompt")
-        .value
-        .trim();
 
-    const result = document.getElementById("chatResult");
+    const prompt =
+        document
+            .getElementById(
+                "chatPrompt"
+            )
+            .value
+            .trim();
 
-    const loading = document.getElementById("chatLoading");
+
+    const result =
+        document.getElementById(
+            "chatResult"
+        );
+
+
+    const loading =
+        document.getElementById(
+            "chatLoading"
+        );
+
 
 
     if (!prompt) {
@@ -122,70 +204,120 @@ async function sendChat() {
         );
 
         return;
+
     }
 
 
-    loading.style.display = "block";
 
-    result.style.display = "none";
+    loading.style.display =
+        "block";
+
+
+    result.style.display =
+        "none";
+
 
 
     try {
 
-        const response = await fetch(
-            `${API_BASE_URL}/chat`,
-            {
-                method: "POST",
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+        const response =
+            await fetch(
 
-                body: JSON.stringify({
-                    prompt: prompt
-                })
-            }
-        );
+                `${API_BASE_URL}/chat`,
+
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            prompt: prompt
+
+                        })
+
+                }
+
+            );
 
 
-        const data = await response.json();
+
+        const data =
+            await response.json();
+
 
 
         if (!response.ok) {
 
             throw new Error(
+
                 data.detail
-                    ? JSON.stringify(data.detail)
+                    ? JSON.stringify(
+                        data.detail
+                    )
                     : "Chat request failed"
+
             );
+
         }
 
 
-        result.style.display = "block";
 
-        result.style.background = "#f3f4f6";
+        result.style.display =
+            "block";
 
-        result.style.color = "#1f2937";
+
+        result.style.background =
+            "#f3f4f6";
+
+
+        result.style.color =
+            "#1f2937";
+
 
         result.textContent =
-            data.response || "No response received.";
+            data.response ||
+            "No response received.";
+
+
 
     } catch (error) {
 
+
         showResult(
+
             "chatResult",
-            "Error: " + error.message,
+
+            "Error: " +
+            error.message,
+
             false
+
         );
+
 
         console.error(error);
 
+
+
     } finally {
 
-        loading.style.display = "none";
+
+        loading.style.display =
+            "none";
 
     }
+
 }
+
 
 
 // ============================================
@@ -195,105 +327,180 @@ async function sendChat() {
 
 async function generateBlog() {
 
-    const topic = document
-        .getElementById("blogTopic")
-        .value
-        .trim();
 
-    const result = document.getElementById("blogResult");
+    const topic =
+        document
+            .getElementById(
+                "blogTopic"
+            )
+            .value
+            .trim();
 
-    const loading = document.getElementById("blogLoading");
 
+    const outlineResult =
+        document
+            .getElementById(
+                "outlineResult"
+            );
+
+
+    const blogContent =
+        document
+            .getElementById(
+                "blogContent"
+            );
+
+
+    const loading =
+        document
+            .getElementById(
+                "blogLoading"
+            );
+
+
+
+    // ========================================
+    // VALIDATE TOPIC
+    // ========================================
 
     if (!topic) {
 
-        result.innerHTML = `
-            <div class="result">
-                Please enter a topic.
-            </div>
-        `;
+        outlineResult.textContent =
+            "Please enter a blog topic.";
+
+        blogContent.textContent =
+            "Please enter a blog topic.";
 
         return;
+
     }
 
 
-    loading.style.display = "block";
 
-    result.innerHTML = "";
+    // ========================================
+    // LOADING
+    // ========================================
+
+    loading.style.display =
+        "block";
+
+
+    outlineResult.textContent =
+        "Generating outline...";
+
+
+    blogContent.textContent =
+        "Generating blog...";
+
 
 
     try {
+
+
+        // ====================================
+        // API URL
+        // ====================================
 
         const url =
             `${API_BASE_URL}/get_blog?topic=` +
             encodeURIComponent(topic);
 
 
-        const response = await fetch(url, {
-            method: "POST"
-        });
+
+        // ====================================
+        // API REQUEST
+        // ====================================
+
+        const response =
+            await fetch(
+
+                url,
+
+                {
+
+                    method: "POST"
+
+                }
+
+            );
 
 
-        const data = await response.json();
 
+        // ====================================
+        // RESPONSE
+        // ====================================
+
+        const data =
+            await response.json();
+
+
+
+        // ====================================
+        // ERROR
+        // ====================================
 
         if (!response.ok) {
 
             throw new Error(
+
                 data.detail
-                    ? JSON.stringify(data.detail)
+                    ? JSON.stringify(
+                        data.detail
+                    )
                     : "Blog generation failed"
+
             );
+
         }
 
 
-        result.innerHTML = `
 
-            <div class="blog-box">
+        // ====================================
+        // SHOW OUTLINE
+        // ====================================
 
-                <h3>Topic</h3>
-
-                <p>${escapeHTML(data.topic || "")}</p>
-
-
-                <h4>Outline</h4>
-
-                <p>
-                    ${formatText(data.outline || "")}
-                </p>
+        outlineResult.textContent =
+            data.outline ||
+            "No outline generated.";
 
 
-                <h4>Blog</h4>
 
-                <p>
-                    ${formatText(data.blog || "")}
-                </p>
+        // ====================================
+        // SHOW BLOG
+        // ====================================
 
-            </div>
+        blogContent.textContent =
+            data.blog ||
+            "No blog generated.";
 
-        `;
+
 
     } catch (error) {
 
-        result.innerHTML = `
 
-            <div class="result"
-                 style="background:#fee2e2;color:#991b1b">
+        outlineResult.textContent =
+            "Error generating outline.";
 
-                Error: ${escapeHTML(error.message)}
 
-            </div>
+        blogContent.textContent =
+            "Error: " +
+            error.message;
 
-        `;
 
         console.error(error);
 
+
+
     } finally {
 
-        loading.style.display = "none";
+
+        loading.style.display =
+            "none";
 
     }
+
 }
+
 
 
 // ============================================
@@ -302,108 +509,188 @@ async function generateBlog() {
 // ============================================
 
 document
-    .getElementById("signupForm")
-    .addEventListener("submit", async function (event) {
+    .getElementById(
+        "signupForm"
+    )
+    .addEventListener(
 
-        event.preventDefault();
+        "submit",
 
-
-        const name =
-            document.getElementById("name").value.trim();
-
-        const age =
-            Number(document.getElementById("age").value);
-
-        const email =
-            document.getElementById("email").value.trim();
-
-        const gender =
-            document.getElementById("gender").value;
-
-        const password =
-            document.getElementById("password").value;
+        async function (event) {
 
 
-        const result =
-            document.getElementById("signupResult");
+            event.preventDefault();
 
 
-        result.style.display = "none";
+
+            const name =
+                document
+                    .getElementById(
+                        "name"
+                    )
+                    .value
+                    .trim();
 
 
-        try {
+            const age =
+                Number(
 
-            const response = await fetch(
-                `${API_BASE_URL}/user/signup`,
-                {
-                    method: "POST",
+                    document
+                        .getElementById(
+                            "age"
+                        )
+                        .value
 
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-
-                        name: name,
-
-                        age: age,
-
-                        email: email,
-
-                        gender: gender,
-
-                        password: password
-
-                    })
-                }
-            );
-
-
-            const data = await response.json();
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    data.detail
-                        ? JSON.stringify(data.detail)
-                        : "Signup failed"
                 );
 
-            }
+
+            const email =
+                document
+                    .getElementById(
+                        "email"
+                    )
+                    .value
+                    .trim();
 
 
-            showResult(
-                "signupResult",
+            const gender =
+                document
+                    .getElementById(
+                        "gender"
+                    )
+                    .value;
 
-                `Account created successfully!
+
+            const password =
+                document
+                    .getElementById(
+                        "password"
+                    )
+                    .value;
+
+
+            const result =
+                document
+                    .getElementById(
+                        "signupResult"
+                    );
+
+
+
+            result.style.display =
+                "none";
+
+
+
+            try {
+
+
+                const response =
+                    await fetch(
+
+                        `${API_BASE_URL}/user/signup`,
+
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    name: name,
+
+                                    age: age,
+
+                                    email: email,
+
+                                    gender: gender,
+
+                                    password:
+                                        password
+
+                                })
+
+                        }
+
+                    );
+
+
+
+                const data =
+                    await response.json();
+
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+
+                        data.detail
+                            ? JSON.stringify(
+                                data.detail
+                            )
+                            : "Signup failed"
+
+                    );
+
+                }
+
+
+
+                showResult(
+
+                    "signupResult",
+
+                    `Account created successfully!
 
 Name: ${data.name}
 Age: ${data.age}
 Gender: ${data.gender}`,
 
-                true
-            );
+                    true
+
+                );
 
 
-            document
-                .getElementById("signupForm")
-                .reset();
+
+                document
+                    .getElementById(
+                        "signupForm"
+                    )
+                    .reset();
 
 
-        } catch (error) {
 
-            showResult(
-                "signupResult",
-                "Error: " + error.message,
-                false
-            );
+            } catch (error) {
 
-            console.error(error);
+
+                showResult(
+
+                    "signupResult",
+
+                    "Error: " +
+                    error.message,
+
+                    false
+
+                );
+
+
+                console.error(error);
+
+            }
 
         }
 
-    });
+    );
+
 
 
 // ============================================
@@ -413,50 +700,92 @@ Gender: ${data.gender}`,
 
 async function getUsers() {
 
+
     const result =
-        document.getElementById("usersResult");
+        document.getElementById(
+            "usersResult"
+        );
+
 
     const loading =
-        document.getElementById("usersLoading");
+        document.getElementById(
+            "usersLoading"
+        );
 
 
-    loading.style.display = "block";
 
-    result.innerHTML = "";
+    loading.style.display =
+        "block";
+
+
+    result.innerHTML =
+        "";
+
 
 
     try {
 
+
         const response =
-            await fetch(`${API_BASE_URL}/all_users`);
+            await fetch(
+
+                `${API_BASE_URL}/all_users`
+
+            );
+
 
 
         const data =
             await response.json();
 
 
+
         if (!response.ok) {
 
             throw new Error(
+
                 data.detail
-                    ? JSON.stringify(data.detail)
+                    ? JSON.stringify(
+                        data.detail
+                    )
                     : "Could not retrieve users"
+
             );
 
         }
 
 
-        if (!Array.isArray(data) || data.length === 0) {
+
+        // ====================================
+        // NO USERS
+        // ====================================
+
+        if (
+
+            !Array.isArray(data) ||
+            data.length === 0
+
+        ) {
 
             result.innerHTML = `
+
                 <div class="result">
+
                     No users found.
+
                 </div>
+
             `;
 
             return;
+
         }
 
+
+
+        // ====================================
+        // CREATE TABLE
+        // ====================================
 
         let tableHTML = `
 
@@ -465,33 +794,54 @@ async function getUsers() {
                 <thead>
 
                     <tr>
-                        <th>Name</th>
-                        <th>Age</th>
-                        <th>Gender</th>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Age
+                        </th>
+
+                        <th>
+                            Gender
+                        </th>
+
                     </tr>
 
                 </thead>
 
                 <tbody>
+
         `;
 
 
+
         data.forEach(user => {
+
 
             tableHTML += `
 
                 <tr>
 
                     <td>
-                        ${escapeHTML(user.name || "")}
+                        ${escapeHTML(
+                            user.name || ""
+                        )}
                     </td>
 
                     <td>
-                        ${escapeHTML(String(user.age || ""))}
+                        ${escapeHTML(
+                            String(
+                                user.age || ""
+                            )
+                        )}
                     </td>
 
                     <td>
-                        ${escapeHTML(user.gender || "")}
+                        ${escapeHTML(
+                            user.gender || ""
+                        )}
                     </td>
 
                 </tr>
@@ -499,6 +849,7 @@ async function getUsers() {
             `;
 
         });
+
 
 
         tableHTML += `
@@ -510,47 +861,68 @@ async function getUsers() {
         `;
 
 
-        result.innerHTML = tableHTML;
+
+        result.innerHTML =
+            tableHTML;
+
 
 
     } catch (error) {
 
+
         result.innerHTML = `
 
-            <div class="result"
-                 style="background:#fee2e2;color:#991b1b">
+            <div
+                class="result"
+                style="
+                    background:#fee2e2;
+                    color:#991b1b;
+                "
+            >
 
-                Error: ${escapeHTML(error.message)}
+                Error:
+                ${escapeHTML(
+                    error.message
+                )}
 
             </div>
 
         `;
 
+
         console.error(error);
+
+
 
     } finally {
 
-        loading.style.display = "none";
+
+        loading.style.display =
+            "none";
+
     }
+
 }
 
 
+
 // ============================================
-// SECURITY / TEXT FORMATTING HELPERS
+// ESCAPE HTML
 // ============================================
 
 function escapeHTML(text) {
 
-    const div = document.createElement("div");
 
-    div.textContent = text;
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        text;
+
 
     return div.innerHTML;
-}
 
-
-function formatText(text) {
-
-    return escapeHTML(text)
-        .replace(/\n/g, "<br>");
 }
